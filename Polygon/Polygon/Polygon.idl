@@ -4,8 +4,24 @@
 // 이 파일은 MIDL 도구에 의해 처리되어
 // 형식 라이브러리(Polygon.tlb) 및 마샬링 코드를 생성합니다.
 
+#include "olectl.h"
 import "oaidl.idl";
 import "ocidl.idl";
+
+[
+	object,
+	uuid(48fdad43-4676-4770-b4bd-b6d0b0bc8684),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IPolyCtl : IDispatch
+{
+	[propput, bindable, requestedit, id(DISPID_FILLCOLOR)]
+	HRESULT FillColor([in]OLE_COLOR clr);
+	[propget, bindable, requestedit, id(DISPID_FILLCOLOR)]
+	HRESULT FillColor([out, retval]OLE_COLOR* pclr);
+};
 
 [
 	uuid(373be9d1-7488-42cc-b776-451592ba7cd6),
@@ -14,5 +30,22 @@ import "ocidl.idl";
 library PolygonLib
 {
 	importlib("stdole2.tlb");
+	[
+		uuid(eac6ca04-c283-4fd6-8394-41fcf718f739)
+	]
+	dispinterface _IPolyCtlEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(37463423-62de-41d1-bcfa-7b4b08c302b9),
+		control
+	]
+	coclass PolyCtl
+	{
+		[default] interface IPolyCtl;
+		[default, source] dispinterface _IPolyCtlEvents;
+	};
 };
 
